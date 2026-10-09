@@ -1,0 +1,85 @@
+<div class="text-center py-5">
+  <h1 class="display-5 fw-bold"><%= ENV.fetch("APP_NAME", "VirtuesGarden Demo") %></h1>
+  <p class="lead text-muted mt-2"><%= ENV.fetch("APP_TAGLINE", "") %></p>
+  <p class="text-muted mx-auto mt-3" style="max-width: 640px;">
+    A child&rsquo;s year is pieced together from a dozen places: a class here, a grandmother there, a neighbour who
+    welds. Tell us what one child loves, what you hope this season gives them, and what your community already
+    offers. You get five to eight aims across academics, character, practical skill, service and experience, each
+    matched to something you listed or named honestly as a gap. No tests, no scores, and nobody but you decides
+    where your child goes.
+  </p>
+  <div class="mt-4 d-flex justify-content-center gap-3">
+    <% if signed_in? %>
+      <%= link_to "Go to my learners", learners_path, class: "btn btn-primary btn-lg" %>
+    <% else %>
+      <%= link_to "Try it free", sign_up_path, class: "btn btn-primary btn-lg" %>
+      <%= link_to "Sign in", sign_in_path, class: "btn btn-outline-secondary btn-lg" %>
+    <% end %>
+  </div>
+</div>
+
+<hr class="my-5 opacity-25">
+
+<div class="mx-auto" style="max-width: 880px;">
+  <h2 class="h5 text-muted text-center mb-4">Example &mdash; a fictional family in a homeschool co-op</h2>
+
+  <div class="card mb-3">
+    <div class="card-body small">
+      <p class="mb-1"><span class="text-muted">Learner:</span> Wren, 9 &nbsp;&middot;&nbsp;
+        <span class="text-muted">Interests:</span> draws birds, takes apart old radios, wants to bake bread on her own</p>
+      <p class="mb-0"><span class="text-muted">Offerings:</span> Saturday bread class at St. Brigid&rsquo;s hall (ages 8&ndash;12),
+        nature journaling walks at Linden Creek (ages 7&ndash;11)</p>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-3">
+    <div class="col-md-6">
+      <div class="card h-100 aim-card"><div class="card-body">
+        <p class="mb-1"><span class="badge area-badge area-practical_skill">Practical skill</span></p>
+        <h3 class="h6 mb-2">Bake a loaf from start to finish</h3>
+        <p class="small mb-0"><span class="badge match-badge">Match</span> Saturday bread class at St. Brigid&rsquo;s hall (ages 8&ndash;12)</p>
+      </div></div>
+    </div>
+    <div class="col-md-6">
+      <div class="card h-100 aim-card"><div class="card-body">
+        <p class="mb-1"><span class="badge area-badge area-academics">Academics</span></p>
+        <h3 class="h6 mb-2">Name twenty birds at the creek by their song or shape</h3>
+        <p class="small mb-0"><span class="badge match-badge">Match</span> Nature journaling walks at Linden Creek (ages 7&ndash;11)</p>
+      </div></div>
+    </div>
+    <div class="col-md-6">
+      <div class="card h-100 aim-card"><div class="card-body">
+        <p class="mb-1"><span class="badge area-badge area-experience">Experience</span></p>
+        <h3 class="h6 mb-2">Open up an old radio with an adult and find what each part does</h3>
+        <p class="small mb-0"><span class="badge gap-badge">Gap</span> <span class="text-muted">Nothing listed offers this yet</span></p>
+      </div></div>
+    </div>
+    <div class="col-md-6">
+      <div class="card h-100 aim-card"><div class="card-body">
+        <p class="mb-1"><span class="badge area-badge area-service">Service</span></p>
+        <h3 class="h6 mb-2">Bring a loaf she baked to a neighbour who lives alone</h3>
+        <p class="small mb-0"><span class="badge gap-badge">Gap</span> <span class="text-muted">Nothing listed offers this yet</span></p>
+      </div></div>
+    </div>
+  </div>
+
+  <p class="small text-muted mb-0">
+    <strong>A gap is a to-do for the community,</strong> not a shortfall in the child: &ldquo;An adult who repairs
+    radios or small electronics could open one up with two or three children, with a second adult present.&rdquo;
+  </p>
+
+  <p class="text-center text-muted small mt-4">
+    AI-generated. A starting point for a guardian to edit, not an assessment: it never tests, scores, ranks or
+    diagnoses a child.
+  </p>
+</div>
+
+<div class="text-center mt-5 pb-4">
+  <% unless signed_in? %>
+    <%= link_to "Plan a season for your own child &rarr;".html_safe, sign_up_path, class: "btn btn-primary" %>
+  <% end %>
+  <div class="mt-3 text-muted small">
+    Open source &middot;
+    <a href="https://virtuesgarden.com" class="text-muted">VirtuesGarden</a>
+  </div>
+</div>

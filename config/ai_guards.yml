@@ -1,0 +1,61 @@
+# Per-app guardrail configuration, read by AiGuardConfig.
+# See docs/ai-guardrails.md (Layer 5: AiOutputGuard) and docs/ai-evals.md.
+
+# Crisis-aware: a guardian describing a child can describe a child in danger, or be in crisis themselves. A match
+# (case-insensitive substring of the rendered prompt) returns crisis resources (988) instead of an AI call.
+# The first block is open-questiontap's list (a guardian writing about themselves); the rest is a guardian writing
+# about a child in the third person, and abuse. "abuse" also covers "abused" and "abusing".
+crisis_terms:
+  - kill myself
+  - killing myself
+  - end my life
+  - take my own life
+  - suicide
+  - suicidal
+  - want to die
+  - wish i were dead
+  - hurt myself
+  - self harm
+  - self-harm
+  - no reason to live
+  # A child, in the guardian's words
+  - kill himself
+  - kill herself
+  - kill themselves
+  - killing himself
+  - killing herself
+  - end his life
+  - end her life
+  - wants to die
+  - wanted to die
+  - wish he were dead
+  - wish she were dead
+  - hurting himself
+  - hurting herself
+  - hurting themselves
+  - hurts himself
+  - hurts herself
+  - hurt himself
+  - hurt herself
+  - harming himself
+  - harming herself
+  - cutting himself
+  - cutting herself
+  - starving himself
+  - starving herself
+  - abuse
+  - molest
+  - not safe at home
+
+# Output structure rules per AiTemplate name. Templates not listed get the
+# generic output checks only (non-empty, no prompt leak, no profanity, no new PII).
+#   format:        text | json
+#   required_keys: top-level keys the JSON object must contain
+templates:
+  health_ping:
+    format: text
+  # SeasonPlansController#parse_season! reads these keys. gaps is optional here (the model may leave it out when
+  # every aim has a match); the parser checks it, the aim count, the areas, the matches, and NoScoreWords.
+  virtuesgarden_season_v1:
+    format: json
+    required_keys: [aims, note_to_guardian]

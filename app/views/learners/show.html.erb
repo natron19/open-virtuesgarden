@@ -1,0 +1,68 @@
+<div class="d-flex justify-content-between align-items-start mb-3 gap-3">
+  <div>
+    <h1 class="h3 mb-1"><%= @learner.first_name %>, <%= @learner.age %></h1>
+    <p class="text-muted small mb-0">
+      <%= link_to "← My learners", learners_path, class: "text-muted" %>
+    </p>
+  </div>
+  <div class="d-flex gap-2 flex-shrink-0">
+    <%= link_to "Edit", edit_learner_path(@learner), class: "btn btn-outline-secondary btn-sm" %>
+    <%= button_to "Delete", learner_path(@learner),
+          method: :delete,
+          form: { data: { turbo_confirm: "Delete #{@learner.first_name} and every season proposed for them?" } },
+          class: "btn btn-outline-danger btn-sm" %>
+  </div>
+</div>
+
+<div class="card mb-4" style="max-width: 820px;">
+  <div class="card-body">
+    <dl class="row mb-0 small">
+      <dt class="col-sm-4 text-muted">Interests</dt>
+      <dd class="col-sm-8 guardian-text"><%= @learner.interests %></dd>
+      <dt class="col-sm-4 text-muted">What this season needs</dt>
+      <dd class="col-sm-8 guardian-text"><%= @learner.season_needs %></dd>
+      <dt class="col-sm-4 text-muted">Offerings you can reach</dt>
+      <dd class="col-sm-8">
+        <% if @learner.offerings.any? %>
+          <ul class="mb-0 ps-3">
+            <% @learner.offerings.each do |offering| %>
+              <li><%= offering %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <span class="text-muted">None listed, so every aim will be a gap</span>
+        <% end %>
+      </dd>
+      <dt class="col-sm-4 text-muted">Areas to focus on</dt>
+      <dd class="col-sm-8 mb-0"><%= render "learners/area_badges", areas: @learner.focus_areas %></dd>
+    </dl>
+  </div>
+</div>
+
+<div class="mb-4" style="max-width: 820px;">
+  <%= render "learners/propose_button", learner: @learner, label: "Propose a season", button_class: "btn btn-primary" %>
+  <p class="text-muted small mt-2 mb-0">
+    The AI reads the age band and your words above, never <%= @learner.first_name %>&rsquo;s name. It proposes five to
+    eight aims in the areas you ticked, matches each to an offering you listed or marks it as a gap, and never tests,
+    scores, ranks or diagnoses. It places no child anywhere: you decide. Typically takes 10&ndash;20 seconds.
+  </p>
+</div>
+
+<% if @season_plans.any? %>
+  <h2 class="h6 text-muted mb-2">Earlier seasons</h2>
+  <ul class="list-unstyled small" style="max-width: 820px;">
+    <% @season_plans.each do |plan| %>
+      <li class="mb-2">
+        <%= link_to learner_season_plan_path(@learner, plan) do %>
+          <%= plan.generated_at ? "#{time_ago_in_words(plan.generated_at)} ago" : "Unknown time" %>
+        <% end %>
+        &nbsp;
+        <% if plan.completed? %>
+          <span class="text-muted"><%= plan.summary %></span>
+        <% else %>
+          <span class="text-muted fst-italic"><%= plan.failed? ? "could not be used" : "still running" %></span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

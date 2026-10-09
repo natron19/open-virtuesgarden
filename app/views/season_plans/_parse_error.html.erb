@@ -1,0 +1,11 @@
+<div class="alert alert-warning">
+  <strong>The AI&rsquo;s answer could not be used.</strong>
+  <p class="mb-1"><%= plan.failure_reason %>.</p>
+  <p class="mb-2 small">
+    The answer did not match the expected shape or broke one of this app&rsquo;s rules: five to eight aims, only in
+    the areas you ticked, matched only to offerings you listed, and never a word that tests, scores, ranks or
+    diagnoses a child. Propose again, or edit the template in the admin panel to tighten the instructions.
+  </p>
+  <%= render "learners/propose_button", learner: learner, label: "Retry",
+             button_class: "btn btn-outline-warning btn-sm" %>
+</div>

@@ -1,0 +1,91 @@
+<div style="max-width: 720px;">
+  <%= form_with model: learner,
+        data: { controller: "form-submit", action: "submit->form-submit#disable" } do |f| %>
+
+    <% if learner.errors.any? %>
+      <div class="alert alert-danger">
+        <ul class="mb-0">
+          <% learner.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="row g-3 mb-3">
+      <div class="col-sm-8">
+        <%= f.label :first_name, "First name", class: "form-label" %>
+        <%= f.text_field :first_name, maxlength: 30, autocomplete: "off",
+              class: "form-control #{'is-invalid' if learner.errors[:first_name].any?}",
+              placeholder: "First name only" %>
+        <% if learner.errors[:first_name].any? %>
+          <div class="invalid-feedback"><%= learner.errors[:first_name].first %></div>
+        <% end %>
+      </div>
+      <div class="col-sm-4">
+        <%= f.label :age, "Age", class: "form-label" %>
+        <%= f.number_field :age, min: Learner::AGES.min, max: Learner::AGES.max,
+              class: "form-control #{'is-invalid' if learner.errors[:age].any?}" %>
+        <% if learner.errors[:age].any? %>
+          <div class="invalid-feedback"><%= learner.errors[:age].first %></div>
+        <% end %>
+      </div>
+      <div class="col-12">
+        <div class="form-text mt-0">
+          First name and age only. No surname, school, birthday or photo: the app never asks for them, and the AI
+          never sees the first name at all.
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :interests, "Interests", class: "form-label" %>
+      <%= f.text_area :interests, rows: 4, maxlength: 1500,
+            class: "form-control #{'is-invalid' if learner.errors[:interests].any?}",
+            placeholder: "What they love, ask about, or reach for. e.g. \"Draws birds, takes apart old radios, wants to bake bread on her own\"" %>
+      <% if learner.errors[:interests].any? %>
+        <div class="invalid-feedback"><%= learner.errors[:interests].first %></div>
+      <% end %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :season_needs, "What this season needs", class: "form-label" %>
+      <%= f.text_area :season_needs, rows: 3, maxlength: 1500,
+            class: "form-control #{'is-invalid' if learner.errors[:season_needs].any?}",
+            placeholder: "What you would like this season to give them. e.g. \"More time outdoors and a friend her own age\"" %>
+      <% if learner.errors[:season_needs].any? %>
+        <div class="invalid-feedback"><%= learner.errors[:season_needs].first %></div>
+      <% end %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :available_offerings, "Offerings you can reach", class: "form-label" %>
+      <%= f.text_area :available_offerings, rows: 4, maxlength: 1500,
+            class: "form-control #{'is-invalid' if learner.errors[:available_offerings].any?}",
+            placeholder: "Optional. One per line, with ages if you know them. e.g. \"Saturday bread class at the parish hall (ages 8-12)\"" %>
+      <div class="form-text">
+        Classes, clubs, and people in your community who already teach something. An aim can only be matched to one
+        of these; an aim nothing here matches is listed as a gap.
+      </div>
+      <% if learner.errors[:available_offerings].any? %>
+        <div class="invalid-feedback d-block"><%= learner.errors[:available_offerings].first %></div>
+      <% end %>
+    </div>
+
+    <fieldset class="mb-4">
+      <legend class="form-label fs-6 mb-2">Areas to focus on</legend>
+      <%= f.collection_check_boxes :focus_areas, Learner::AREAS.map { |a| [ a, Learner.area_label(a) ] }, :first, :last do |b| %>
+        <div class="form-check form-check-inline">
+          <%= b.check_box class: "form-check-input" %>
+          <%= b.label class: "form-check-label" %>
+        </div>
+      <% end %>
+      <div class="form-text">Aims are proposed only in the areas you tick.</div>
+      <% if learner.errors[:focus_areas].any? %>
+        <div class="text-danger small mt-1">Areas to focus on <%= learner.errors[:focus_areas].first %></div>
+      <% end %>
+    </fieldset>
+
+    <%= f.submit class: "btn btn-primary", data: { form_submit_target: "button" } %>
+  <% end %>
+</div>

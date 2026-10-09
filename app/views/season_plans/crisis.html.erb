@@ -1,0 +1,22 @@
+<%# Rendered with 422 when AiGatekeeper raises CrisisError: a crisis term was found in what the guardian wrote, and
+    nothing was sent to the AI. The shared partial carries the 988 message; the line below is for a guardian
+    worried about a child. %>
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <%= render "shared/ai_error", error_type: :crisis %>
+      <div class="card">
+        <div class="card-body small">
+          <p class="mb-2">
+            Nothing you wrote was sent to the AI, and no season was proposed. If a child is in danger right now, call
+            911 or your local emergency number.
+          </p>
+          <p class="mb-0">
+            If you are worried a child is being hurt or harmed, the Childhelp National Child Abuse Hotline
+            answers around the clock: call or text 1-800-422-4453.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
